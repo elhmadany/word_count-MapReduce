@@ -1,0 +1,33 @@
+#########task1###
+#create input and outpur dir
+hdfs dfs -mkdir /user/cloudera/input
+#hdfs dfs -mkdir /user/cloudera/output
+
+hdfs dfs -ls -R /user/cloudera
+
+
+Make sure that the file created by using the command : cat water_text.txt
+------------------------------------------------------------------------------
+hdfs dfs -put water_text.txt /user/cloudera/input
+
+Make sure that the file loaded and stored into HDFS : 
+---------------------------------------------------------
+hdfs dfs -ls /user/cloudera/input/
+
+hdfs dfs -cat /user/cloudera/input/water_text.txt
+
+
+
+export LIB_PATH=/usr/lib/hadoop
+export JARS=$LIB_PATH/client-0.20/hadoop-core.jar:$LIB_PATH/lib/commons-cli-1.2.jar:$LIB_PATH/client/hadoop-common.jar:$LIB_PATH/hadoop-annotations-2.6.0-cdh5.4.2.jar
+
+
+cd bigdata_course
+javac -classpath $JARS task1/WordCount.java
+jar -cvf wordcount.jar -C wordcount_classes/ . #jar creation
+hadoop jar wordcount.jar WordCount /user/cloudera/input /user/cloudera/output
+
+
+hdfs dfs -ls -R /user/cloudera/output/*
+hdfs dfs -cat /user/cloudera/output/part-r-00000
+
